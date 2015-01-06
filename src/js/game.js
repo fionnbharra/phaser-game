@@ -15,23 +15,27 @@
     create: function () {
 
       this.physics.startSystem(Phaser.Physics.ARCADE);
-      this.add.sprite(0, 0, 'sky');
+      // this.add.sprite(0, 0, 'sky');
 
       this.addLand();
       this.addPlayer();
-      this.addStars();
-      this.addScoreText();
 
+      // this.addScoreText();
+      //
       this.cursors = this.input.keyboard.createCursorKeys();
     },
 
     update: function () {
-      this.physics.arcade.collide(this.player, this.platforms);
-      this.physics.arcade.collide(this.stars, this.platforms);
-      this.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
-      //  Reset the players velocity (movement)
-      this.player.body.velocity.x = 0;
 
+
+      this.game.physics.arcade.collide(this.player, this.blockedLayer, this.playerHit, null, this);
+      if(this.player.y >= this.game.world.height) {
+        this.game.state.start('menu');
+
+      }
+      // //  Reset the players velocity (movement)
+      this.player.body.velocity.x = 0;
+      //
       if (this.cursors.left.isDown)
       {
         //  Move to the left
@@ -55,7 +59,7 @@
       }
 
       //  Allow the this.player to jump if they are touching the ground.
-      if (this.cursors.up.isDown && this.player.body.touching.down)
+      if (this.cursors.up.isDown && this.player.body.blocked.down)
       {
         this.player.body.velocity.y = -350;
       }
@@ -66,34 +70,33 @@
     },
 
     addLand: function () {
-      //  The platforms group contains the ground and the 2 ledges we can jump on
-      this.platforms = this.add.group();
 
-      //  We will enable physics for any object that is created in this group
-      this.platforms.enableBody = true;
 
-      // Here we create the ground.
-      var ground = this.platforms.create(0, this.world.height - 64, 'ground');
+      this.map = this.game.add.tilemap('level1');
 
-      //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-      ground.scale.setTo(2, 2);
+      //the first parameter is the tileset name as specified in Tiled, the second is the key to the asset
+      //
+      this.map.addTilesetImage('tiles_spritesheet', 'gameTiles');
+      //
+      // //create layers
+      //
+      this.backgroundlayer = this.map.createLayer('backgroundLayer');
+      //
+      this.blockedLayer = this.map.createLayer('blockedLayer');
+      //
+      // //collision on blockedLayer
+      //
+      this.map.setCollisionBetween(1, 100000, true, 'blockedLayer');
 
-      //  This stops it from falling away when you jump on it
-      ground.body.immovable = true;
+      //resizes the game world to match the layer dimensions
 
-      //  Now let's create two ledges
-      var ledge = this.platforms.create(400, this.world.height/2, 'ground');
+      this.backgroundlayer.resizeWorld();
 
-      ledge.body.immovable = true;
-
-      ledge = this.platforms.create(-150, this.world.height/2, 'ground');
-
-      ledge.body.immovable = true;
     },
 
     addPlayer: function () {
       // The player and its settings
-      this.player = this.add.sprite(32, this.world.height - 150, 'player');
+      this.player = this.add.sprite(32, this.world.height - 550, 'player');
 
       //  We need to enable physics on the player
       this.physics.arcade.enable(this.player);
@@ -101,7 +104,7 @@
       //  Player physics properties. Give the little guy a slight bounce.
       this.player.body.bounce.y = 0.2;
       this.player.body.gravity.y = 300;
-      this.player.body.collideWorldBounds = true;
+      this.game.camera.follow(this.player);
       this.player.animations.add('left', [0, 1, 2, 3], 10, true);
       this.player.animations.add('right', [5, 6, 7, 8], 10, true);
     },

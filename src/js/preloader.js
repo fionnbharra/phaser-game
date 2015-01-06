@@ -15,6 +15,9 @@
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
 
+
+      this.load.tilemap('level1', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+      this.load.image('gameTiles', 'assets/tiles_spritesheet.png');
       this.load.image('sky', 'assets/sky.png');
       this.load.image('ground', 'assets/ground.png');
       this.load.spritesheet('player', 'assets/player.png', 32, 48);
