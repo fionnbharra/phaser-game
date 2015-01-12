@@ -9,6 +9,8 @@ var gulp = require('gulp')
   , jshint = require('gulp-jshint')
   , uglify = require('gulp-uglify')
   , connect = require('gulp-connect')
+  , source = require('vinyl-source-stream')
+  , browserify = require('browserify')
   , paths;
 
 paths = {
@@ -17,7 +19,7 @@ paths = {
   libs:   [
     'src/bower_components/phaser-official/build/phaser.min.js'
   ],
-  js:     ['src/js/**/*.js'],
+  js:     ['src/js/**/*.js', '!src/js/bundle.js'],
   dist:   './dist/'
 };
 
@@ -82,6 +84,17 @@ gulp.task('html', function(){
     .on('error', gutil.log);
 });
 
+
+gulp.task('browserify', function() {
+  var bundleStream = browserify('./src/js/main.js',
+  { 'debug': true })
+  .bundle();
+
+  bundleStream
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest('./src/js/'));
+});
+
 gulp.task('connect', function () {
   connect.server({
     root: [__dirname + '/src'],
@@ -91,7 +104,7 @@ gulp.task('connect', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(paths.js, ['lint']);
+  gulp.watch(paths.js, ['lint', 'browserify']);
   gulp.watch(['./src/index.html', paths.css, paths.js], ['html']);
 });
 
