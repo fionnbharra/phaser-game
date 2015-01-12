@@ -108,5 +108,5 @@ gulp.task('watch', function () {
   gulp.watch(['./src/index.html', paths.css, paths.js], ['html']);
 });
 
-gulp.task('default', ['connect', 'watch']);
-gulp.task('build', ['copy', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
+gulp.task('default', ['browserify', 'connect', 'watch']);
+gulp.task('build', ['browserify', 'copy', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
