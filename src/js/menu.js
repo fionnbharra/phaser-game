@@ -23,10 +23,6 @@ Menu.prototype = {
     this.input.onDown.add(this.onDown, this);
   },
 
-  update: function () {
-
-  },
-
   onDown: function () {
     this.game.state.start('game');
   }
