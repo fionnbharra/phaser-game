@@ -1,7 +1,6 @@
-
-'use strict';
-
-function Boot() {}
+function Boot() {
+  'use strict';
+}
 
 Boot.prototype = {
 
