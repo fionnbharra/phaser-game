@@ -1,5 +1,5 @@
 var Player =  require('./player.js');
-var Map =  require('./map.js');
+var Land =  require('./land.js');
 
 function Game() {
   'use strict';
@@ -55,7 +55,7 @@ Game.prototype = {
   },
 
   addLand: function () {
-    this.map = new Map(this);
+    this.map = new Land(this);
   },
 
   addPlayer: function () {

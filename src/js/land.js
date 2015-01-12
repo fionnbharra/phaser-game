@@ -1,11 +1,11 @@
-function Map(game) {
+function Land(game) {
   'use strict';
 
   this.game = game;
   return this.init();
 }
 
-Map.prototype = {
+Land.prototype = {
   init: function(){
     this.map = this.game.add.tilemap('level1');
 
@@ -28,4 +28,4 @@ Map.prototype = {
   }
 };
 
-module.exports = Map;
+module.exports = Land;

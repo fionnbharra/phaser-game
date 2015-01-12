@@ -1,6 +1,5 @@
-'use strict';
-
 function Menu() {
+  'use strict';
   this.titleTxt = null;
   this.startTxt = null;
 }
