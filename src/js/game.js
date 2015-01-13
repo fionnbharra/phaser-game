@@ -59,18 +59,7 @@ Game.prototype = {
   },
 
   addPlayer: function () {
-    // The player and its settings
     this.player = new Player(this);
-
-    //  We need to enable physics on the player
-    this.physics.arcade.enable(this.player.sprite);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    this.player.sprite.body.bounce.y = 0.2;
-    this.player.sprite.body.gravity.y = 300;
-    this.game.camera.follow(this.player.sprite);
-    this.player.sprite.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.sprite.animations.add('right', [5, 6, 7, 8], 10, true);
   }
 };
 module.exports = Game;
