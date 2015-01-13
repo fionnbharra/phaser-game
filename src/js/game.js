@@ -12,8 +12,8 @@ Game.prototype = {
 
   create: function () {
     this.physics.startSystem(Phaser.Physics.ARCADE);
-    this.addLand();
-    this.addPlayer();
+    this.map = new Land(this);
+    this.player = new Player(this);
     this.cursors = this.input.keyboard.createCursorKeys();
   },
 
@@ -52,14 +52,6 @@ Game.prototype = {
     {
       this.player.sprite.body.velocity.y = -350;
     }
-  },
-
-  addLand: function () {
-    this.map = new Land(this);
-  },
-
-  addPlayer: function () {
-    this.player = new Player(this);
   }
 };
 module.exports = Game;
