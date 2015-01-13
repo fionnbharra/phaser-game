@@ -18,7 +18,7 @@ Game.prototype = {
   },
 
   update: function () {
-    this.game.physics.arcade.collide(this.player, this.map.blockedLayer, this.playerHit, null, this);
+    this.game.physics.arcade.collide(this.player.sprite, this.map.blockedLayer, this.playerHit, null, this);
 
     if(this.player.sprite.y >= this.game.world.height) {
       this.game.state.start('menu');
@@ -60,7 +60,7 @@ Game.prototype = {
 
   addPlayer: function () {
     // The player and its settings
-    this.player.sprite = new Player();
+    this.player = new Player(this);
 
     //  We need to enable physics on the player
     this.physics.arcade.enable(this.player.sprite);
