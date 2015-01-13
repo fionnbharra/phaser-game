@@ -11,6 +11,7 @@ var gulp = require('gulp')
   , connect = require('gulp-connect')
   , source = require('vinyl-source-stream')
   , browserify = require('browserify')
+  , mocha = require('gulp-mocha')
   , paths;
 
 paths = {
@@ -108,5 +109,14 @@ gulp.task('watch', function () {
   gulp.watch(['./src/index.html', paths.css, paths.js], ['html']);
 });
 
+
 gulp.task('default', ['browserify', 'connect', 'watch']);
 gulp.task('build', ['browserify', 'copy', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
+
+gulp.task('test', function () {
+  return gulp.src('./test/**/*_test.js', {read: false})
+    .pipe(mocha({reporter: 'nyan'}));
+});
+
+gulp.task('default', ['connect', 'watch']);
+gulp.task('build', ['copy', 'uglify', 'minifycss', 'processhtml', 'minifyhtml']);
